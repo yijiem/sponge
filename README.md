@@ -1,4 +1,4 @@
-## Labs for Stanford CS144
+## stanford cs144
 
 For build prereqs, see [the CS144 VM setup instructions](https://web.stanford.edu/class/cs144/vm_howto).
 
