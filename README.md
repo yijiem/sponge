@@ -1,4 +1,4 @@
-## Labs for Stanford CS144 Introduction to Computer Networking, Fall 2021
+## Labs for Stanford CS144
 
 For build prereqs, see [the CS144 VM setup instructions](https://web.stanford.edu/class/cs144/vm_howto).
 
