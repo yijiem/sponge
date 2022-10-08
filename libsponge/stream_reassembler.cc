@@ -54,17 +54,10 @@ void Range::consume(const Range *other) {
     // [rl, rr)
     assert((rl >= ll && rl <= lr) || (ll >= rl && ll <= rr));
 
-    cout << "consume: "
-         << "range: " << *this << " range: " << *other << endl
-         << flush;
+    // cout << "consume: "
+    //      << "range: " << *this << " range: " << *other << endl
+    //      << flush;
 
-    // "defg"
-    // ll: 3
-    // lr: 7
-    //
-    // "ghi"
-    // rl: 6
-    // rr: 9
     if (ll > rl) {
         _data = other->_data.substr(0, ll - rl) + _data;
     }
@@ -72,7 +65,6 @@ void Range::consume(const Range *other) {
         _data = _data + other->_data.substr(lr - rl);
     }
     _index = std::min(_index, other->_index);
-    cout << "consume: " << *this << endl << flush;
 }
 
 StreamReassembler::StreamReassembler(const size_t capacity) : _output(capacity), _capacity(capacity) {}
@@ -93,7 +85,6 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     if (eof) {
         _eof = eof;
     }
-    debug();
     //
     //                 unassembled_offset
     //                         |
