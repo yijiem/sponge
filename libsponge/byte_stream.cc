@@ -1,6 +1,8 @@
 #include "byte_stream.hh"
 
 #include <algorithm>
+#include <iostream>
+#include <ostream>
 #include <string.h>
 
 // Dummy implementation of a flow-controlled in-memory byte stream.
@@ -19,7 +21,13 @@ ByteStream::ByteStream(const size_t capacity) : _storage() { _storage.reserve(ca
 
 size_t ByteStream::write(const string &data) {
     size_t actual_size = std::min(data.size(), _storage.capacity() - _size);
-    if (actual_size > 0) {
+    if (_tail + actual_size > _storage.capacity()) {
+        // wraps around, 2 writes
+        size_t first_write_size = _storage.capacity() - _tail;
+        memcpy(_storage.data() + _tail, data.c_str(), first_write_size);
+        size_t second_write_size = actual_size - first_write_size;
+        memcpy(_storage.data(), data.c_str() + first_write_size, second_write_size);
+    } else if (actual_size > 0) {
         memcpy(_storage.data() + _tail, data.c_str(), actual_size);
     }
     _tail = (_tail + actual_size) % _storage.capacity();

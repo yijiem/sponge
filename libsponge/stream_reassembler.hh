@@ -6,6 +6,30 @@
 #include <cstdint>
 #include <string>
 
+// Range holds a data range and forms a sorted doubly linked list for
+// unassembled discrete Ranges.
+class Range {
+  private:
+    std::string _data;
+    uint64_t _index;
+
+  public:
+    Range(const std::string &data, uint64_t index);
+
+    Range(const Range &) = delete;
+    Range &operator=(const Range &) = delete;
+
+    bool operator<(const Range &rhs) const;
+    std::string data() const;
+    uint64_t index() const;
+    size_t size() const;
+
+    void consume(const Range *other);
+
+    Range *_prev = NULL;
+    Range *_next = NULL;
+};
+
 //! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
 //! possibly overlapping) into an in-order byte stream.
 class StreamReassembler {
@@ -14,12 +38,22 @@ class StreamReassembler {
 
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
+    size_t _offset = 0;  //!< First unread offset
+    bool _eof = false;
+
+    Range *_head = NULL;
+    void range_put(Range *range);
+    void debug() const;
 
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
     //! \note This capacity limits both the bytes that have been reassembled,
     //! and those that have not yet been reassembled.
     StreamReassembler(const size_t capacity);
+    ~StreamReassembler();
+
+    StreamReassembler(const StreamReassembler &) = delete;
+    StreamReassembler &operator=(const StreamReassembler &) = delete;
 
     //! \brief Receive a substring and write any newly contiguous bytes into the stream.
     //!
