@@ -44,7 +44,9 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint);
 //! \returns the number of increments needed to get from `b` to `a`,
 //! negative if the number of decrements needed is less than or equal to
 //! the number of increments
-inline int32_t operator-(WrappingInt32 a, WrappingInt32 b) { return a.raw_value() - b.raw_value(); }
+inline int64_t operator-(WrappingInt32 a, WrappingInt32 b) {
+    return static_cast<int64_t>(a.raw_value()) - b.raw_value();
+}
 
 //! \brief Whether the two integers are equal.
 inline bool operator==(WrappingInt32 a, WrappingInt32 b) { return a.raw_value() == b.raw_value(); }
@@ -59,7 +61,9 @@ inline std::ostream &operator<<(std::ostream &os, WrappingInt32 a) { return os <
 inline WrappingInt32 operator+(WrappingInt32 a, uint32_t b) { return WrappingInt32{a.raw_value() + b}; }
 
 //! \brief The point `b` steps before `a`.
-inline WrappingInt32 operator-(WrappingInt32 a, uint32_t b) { return a + -b; }
+inline WrappingInt32 operator-(WrappingInt32 a, uint32_t b) { return WrappingInt32{a.raw_value() + -b}; }
 //!@}
+
+inline bool operator<=(WrappingInt32 a, WrappingInt32 b) { return a.raw_value() <= b.raw_value(); }
 
 #endif  // SPONGE_LIBSPONGE_WRAPPING_INTEGERS_HH
