@@ -20,6 +20,11 @@ class TCPReceiver {
     //! The maximum number of bytes we'll store.
     size_t _capacity;
 
+    //! Initial sequence number
+    std::optional<WrappingInt32> _isn = std::nullopt;
+
+    uint64_t get_checkpoint() const;
+
   public:
     //! \brief Construct a TCP receiver
     //!

@@ -45,8 +45,6 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
     } else {
         other_diff = static_cast<int64_t>(1ul << 32) + diff;
     }
-    std::cout << "diff: " << diff << std::endl;
-    std::cout << "other_diff: " << other_diff << std::endl;
     //
     // at most these possibilities
     // checkpoint + diff
